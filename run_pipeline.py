@@ -48,7 +48,7 @@ def main():
     required_files = [
         '01_data_download.py',
         '02_data_preprocessing.py',
-        'EDA.py',
+        '03_exploratory_analysis.py',
         '04_feature_engineering.py',
         '05_machine_learning_models.py',
         '06_project_summary.py',
@@ -66,7 +66,7 @@ def main():
     steps = [
         ('01_data_download.py', 'Data Download from NYC Open Data API'),
         ('02_data_preprocessing.py', 'Data Preprocessing and Splitting'),
-        ('EDA.py', 'Exploratory Data Analysis'),
+        ('03_exploratory_analysis.py', 'Exploratory Data Analysis'),
         ('04_feature_engineering.py', 'Feature Engineering'),
         ('05_machine_learning_models.py', 'Machine Learning Model Training'),
         ('06_project_summary.py', 'Project Summary Generation'),

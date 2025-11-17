@@ -144,13 +144,14 @@ python 08_model_performance_by_time_bins.py
 - Frequency × temporal interactions
 
 ## 🤖 Models Implemented
+## Models performances on unseen dataset (validation dataset)
 
-|Model	          |RMSE_orig    | MAE_orig    |  R2_orig	| MAPE        |    
-|-----------------|-------------|-------------|-------------|-------------|
-|Random_Forest    |	39.92319572 | 16.40894792 |	0.47848311  |	1809476497|
-|Gradient_Boosting| 40.31511812 | 16.46632906 |	0.468193482 |	1700615859|
-|XGBoost          |	39.57524133 | 16.18057534 |	0.487534154 |	1526827832|
-|LightGBM         |	40.38150236 | 16.54707907 |	0.466440659 |	1854924560|
+|Model	          |RMSE   | MAE   |  R2	 |     
+|-----------------|---------------|------|
+|Random_Forest    |	41.12 | 17.26 |	0.74 |
+|Gradient_Boosting| 41.68 | 17.37 |	0.75 |
+|XGBoost          |	40.89 | 17.05 |	0.76 |
+|LightGBM         |	41.84 | 17.48 |	0.75 |
 
 
 ## 📊 Key Findings
@@ -159,10 +160,10 @@ python 08_model_performance_by_time_bins.py
 - **Quick Resolution**: Parking violations, noise complaints (< 3 hours)
 - **Long Resolution**: Housing issues, sanitation problems (> 500 hours)
 - **Peak Times**: More requests during business hours and weekdays
-- **Borough Differences**: Manhattan has higher average resolution times
+- **Borough Differences**: BRONX has higher average resolution times while QUEENS has the lowest
 
 ### Business Insights
-- Complaint type is the strongest predictor (explains ~70% of variance)
+- Complaint type average resolution time, agency type and descriptor lenght are the strongest predictors
 - Geographic location adds significant predictive power
 - Temporal patterns help optimize resource allocation
 - Agency workload affects resolution efficiency
@@ -197,17 +198,6 @@ The project generates several visualization files in the `plots/` directory:
 - `correlation_analysis.png` - Feature correlation heatmap
 - `model_comparison.png` - Model performance comparison
 - `feature_importance.png` - Top predictive features
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to:
-- Open issues for bugs or feature requests
-- Submit pull requests for improvements
-- Share suggestions for additional features or models
-
-## 📄 License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 

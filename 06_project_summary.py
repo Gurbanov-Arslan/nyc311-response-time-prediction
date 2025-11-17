@@ -73,14 +73,11 @@ def generate_project_summary():
         print(f"{row['Model']:<18} | {row['RMSE_orig']:>7.2f} | {row['MAE_orig']:>7.2f} | {row['R2_orig']:>7.3f} | {row['MAPE']:>6.1f}%")
     
     print(f"\nBest Performing Model: {model_metadata['best_model_validation']}")
-    
+
     print("\n5. KEY INSIGHTS")
     print("-" * 50)
     print("Model Performance Insights:")
-    print("  • Random Forest achieved the best performances on validation set (RMSE: 15.23h, MAE: 8.45h, R²: 0.72)")
-    print("  • Tree-based models (RF, GB, XGB, LGB) significantly outperformed linear models")
-    # print("  • Neural networks showed moderate performance but require more tuning")
-    print("  • Linear models struggled with the complex, non-linear relationships")
+    print("  • Xgboost achieved the best performances on validation set (MAE: 17.05 RMSE: 40.89h, R²: 0.76)")
     
     print("\nData Insights:")
     print("  • Resolution times are highly skewed with a long tail")
@@ -103,7 +100,7 @@ def generate_project_summary():
     print("  • Monitor actual vs predicted times for continuous improvement")
     
     print("\nSystem Integration:")
-    print("  • Deploy Random Forest model for real-time predictions")
+    print("  • Deploy Xgboost model for real-time predictions")
     print("  • Create dashboards showing predicted resolution times")
     print("  • Integrate with existing 311 systems for enhanced workflow")
     

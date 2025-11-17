@@ -177,6 +177,47 @@ def geographic_analysis(df):
         return pd.DataFrame()
 
 
+# Geographic Analysis
+def geographic_type_analysis(df):
+    if 'borough' in df.columns:
+        
+        # Count complaints per borough
+        borough_stats = (
+            df.groupby('borough')['complaint_type']
+              .count()
+              .reset_index(name='complaint_count')
+              .sort_values('complaint_count', ascending=False)
+        )
+        
+        # Print results
+        print("\n Number of Complaints by Borough:")
+        print(borough_stats.to_string(index=False))
+
+        # Plot
+        plt.figure(figsize=(10, 6))
+        sns.barplot(
+            data=borough_stats,
+            x='borough',
+            y='complaint_count'
+        )
+        plt.title('Number of Complaints by Borough')
+        plt.xlabel('Borough')
+        plt.ylabel('Number of Complaints')
+        plt.xticks(rotation=45)
+        plt.tight_layout()
+
+        # Save plot
+        plt.savefig('plots/complaints_by_borough.png', dpi=300)
+        plt.show()
+
+        return borough_stats
+    
+    else:
+        print("Column 'borough' not found in dataset.")
+        return pd.DataFrame()
+
+
+
 
 # Correlation Analysis
 def correlation_analysis(df):
@@ -213,21 +254,32 @@ def trend_analysis(df):
 
 # Save All Outputs to Excel
 def save_analysis_to_excel(stats, missing, corr, daily_avg, complaint_stats,
-                           borough_stats, hourly_avg, day_avg, monthly_stats):
+                           borough_stats, borough_stats_type, hourly_avg, day_avg, monthly_stats):
+
     output_path = 'outputs/analysis_outputs_full.xlsx'
     with pd.ExcelWriter(output_path, engine='openpyxl') as writer:
-        pd.DataFrame({'Metric': ['Rows','Columns'],
-                      'Value': [stats['shape'][0], stats['shape'][1]]}).to_excel(writer, index=False, sheet_name='Basic Stats')
+
+        pd.DataFrame({
+            'Metric': ['Rows','Columns'],
+            'Value': [stats['shape'][0], stats['shape'][1]]
+        }).to_excel(writer, index=False, sheet_name='Basic Stats')
+
         stats['resolution_time_desc'].to_excel(writer, sheet_name='Resolution Stats')
         missing.to_excel(writer, sheet_name='Missing Values')
         corr.to_frame(name='correlation').to_excel(writer, sheet_name='Correlations')
         daily_avg.to_frame(name='avg_resolution_time').to_excel(writer, sheet_name='Daily Avg Resolution')
         complaint_stats.to_excel(writer, sheet_name='Complaint Type Stats')
+
         if not borough_stats.empty:
             borough_stats.to_excel(writer, sheet_name='Borough Stats')
+
+        if borough_stats_type is not None and not borough_stats_type.empty:
+            borough_stats_type.to_excel(writer, sheet_name='Complaint Count by Borough')
+
         hourly_avg.to_frame(name='avg_resolution_time').to_excel(writer, sheet_name='Hourly Avg Resolution')
         day_avg.to_frame(name='avg_resolution_time').to_excel(writer, sheet_name='DayOfWeek Avg Resolution')
         monthly_stats.to_excel(writer, sheet_name='Monthly Trends')
+
     print(f" All summaries saved to {output_path}")
 
 
@@ -240,11 +292,14 @@ def main():
     complaint_stats = complaint_type_analysis(df)
     hourly_avg, day_avg = temporal_analysis(df)
     borough_stats = geographic_analysis(df)
+    borough_stats_type = geographic_type_analysis(df)
     corr = correlation_analysis(df)
     monthly_stats = trend_analysis(df)
 
-    save_analysis_to_excel(stats, missing, corr, daily_avg, complaint_stats,
-                           borough_stats, hourly_avg, day_avg, monthly_stats)
+    save_analysis_to_excel(
+    stats, missing, corr, daily_avg, complaint_stats,
+    borough_stats, borough_stats_type, hourly_avg, day_avg, monthly_stats)
+
 
     print("\n EDA completed for FULL dataset. Visuals saved in /plots and summaries in /outputs.")
 
